@@ -4,7 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import http from 'http';
 import { Server } from 'socket.io';
-import config from './config/load_env.js';
+import config from './config/load_env';
 
 const app = express();
 const server = http.createServer(app);
