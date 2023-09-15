@@ -1,4 +1,4 @@
-// Call with Socket.io
+// Call with Socket.io instance
 
 import io from '../index';
 
