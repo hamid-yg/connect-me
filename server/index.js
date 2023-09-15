@@ -2,16 +2,26 @@
 
 import express from 'express';
 import cors from 'cors';
+import http from 'http';
+import { Server } from 'socket.io';
 import config from './config/load_env.js';
 
 const app = express();
+const server = http.createServer(app);
 
 app.use(cors());
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST'],
+  },
 });
 
-app.listen(config.port, () => {
-  console.log('Server listening on port 3000');
+app.get('/', (req, res) => {
+  res.send('Server is running successfully');
 });
+
+server.listen(config.PORT, () => console.log(`Server is running on port ${config.PORT}`));
+
+export default io;
