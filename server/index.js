@@ -22,6 +22,6 @@ app.get('/', (req, res) => {
   res.send('Server is running successfully');
 });
 
-server.listen(config.PORT, () => console.log(`Server is running on port ${config.PORT}`));
+server.listen(config.port, () => console.log(`Server is running on port ${config.port}`));
 
 export default io;
