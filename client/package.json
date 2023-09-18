@@ -9,11 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.1",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
+    "framer-motion": "^10.16.4",
     "next": "13.4.19",
     "react": "18.2.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "18.2.0",
+    "react-icons": "^4.11.0",
     "simple-peer": "^9.11.1",
     "socket.io-client": "^4.7.2"
   }
