@@ -1,27 +1,24 @@
 // this file handles the chat component
 import React, { useState, useEffect } from "react";
-import socket from "../socket"; 
+import socket from "../../src/pages/socket";
 
 const Chat = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const [name, setName] = useState(""); 
+  const [name, setName] = useState("");
 
   useEffect(() => {
-    
     socket.on("msgRcv", (data) => {
       setMessages([...messages, data]);
     });
 
     return () => {
-      
       socket.disconnect();
     };
   }, [messages]);
 
   const sendMessage = () => {
     if (message) {
-      
       socket.emit("sendChatMessage", { name, msg: message });
       setMessage("");
     }

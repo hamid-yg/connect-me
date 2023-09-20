@@ -1,10 +1,8 @@
-// this file handles the video streaming
 import React, { useState, useEffect, useRef } from "react";
+import socket from "../pages/socket";
+import SimplePeer from "simple-peer";
+import UserProfile from "./UserProfile";
 
-import socket from "../socket";
-
-import Peer from "simple-peer";
-import CopyToClipboard from "react-copy-to-clipboard";
 function VideoChat() {
   const [me, setMeID] = useState("");
   const [stream, setStream] = useState(null);
@@ -18,8 +16,8 @@ function VideoChat() {
   const [name, setName] = useState("");
   const myVideo = useRef();
   const userVideo = useRef();
-  const Peer = useRef();
-  const connectionRef= useRef();
+   const peerRef = useRef();
+  const connectionRef = useRef();
 
   useEffect(() => {
     navigator.mediaDevices
@@ -30,6 +28,7 @@ function VideoChat() {
           myVideo.current.srcObject = stream;
         }
       });
+    //
 
     socket.on("me", (id) => {
       setMeID(id);
@@ -42,10 +41,10 @@ function VideoChat() {
       setName(name);
       setCallerSignal(signal);
     });
-  }, {});
+  }, []);
 
   const callUser = (id) => {
-    const peer = new Peer({
+    const peer = new SimplePeer({
       initiator: true,
       trickle: false,
       stream: stream,
@@ -70,7 +69,7 @@ function VideoChat() {
   };
   const answerCall = () => {
     setCallAccepted(true);
-    const peer = Peer({
+    const peer = new SimplePeer({
       initiator: false,
       trickle: false,
       stream: stream,
@@ -127,8 +126,12 @@ function VideoChat() {
           </div>
         ) : null}
       </div>
+      {!callAccepted && (
+        <UserProfile name={name} onCallButtonClick={callUser} />
+      )}
     </>
   );
+  
 }
 
 export default VideoChat;

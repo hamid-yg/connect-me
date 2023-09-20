@@ -1,17 +1,12 @@
-// import "@/styles/globals.css";
-// import peer from "simple-peer";
+import "..styles/globals.css";
+import { ChakraProvider } from "@chakra-ui/react";
 
-// export default function App({ Component, pageProps }) {
-//   return <Component {...pageProps} />
-// }
-// import React from "react";
-// import ReactDOM from "react-dom/client";
-// import App from "./App";
-// import { ChakraProvider } from "@chakra-ui/react";
+function MyApp({ Component, pageProps }) {
+  return (
+    <ChakraProvider>
+      <Component {...pageProps} />
+    </ChakraProvider>
+  );
+}
 
-// import peer from "simple-peer";
-// import { io } from "socket.io-client";
-
-// const socket = io("https://connect-me-47177b2104fc.herokuapp.com");
-
-// export default socket;
+export default MyApp;
