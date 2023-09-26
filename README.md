@@ -13,6 +13,7 @@ The video calling app project aims to create a user-friendly and reliable platfo
 - [ ] Mute Audio / Video 
 - [ ] PWA features for mobile devices
 - [ ] Real-time chat
+- [ ] live emoji
 - [ ] Screen Sharing
 - [ ] Unlimited duration calls
 - [ ] Recording ?
