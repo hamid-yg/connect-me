@@ -3,7 +3,7 @@ import { Typography, AppBar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import VideoPlayer from "./components/VideoPlayer/VideoPlayer";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/Sidebar/Sidebar";
 import Notifications from "./components/Notifications/Notifications";
 
 const useStyles = makeStyles((theme) => ({
