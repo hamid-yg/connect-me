@@ -4,9 +4,10 @@ import Peer from "simple-peer";
 
 const SocketContext = createContext();
 
-const socket = io('http://localhost:5000');
+const socket = io("http://localhost:5000");
 // const socket = io("https://connect-me-47177b2104fc.herokuapp.com");
 
+// contextprovider contains the 3 functions needed for the video chat app to work
 const ContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false);
   const [callEnded, setCallEnded] = useState(false);
@@ -18,7 +19,7 @@ const ContextProvider = ({ children }) => {
   const myVideo = useRef();
   const userVideo = useRef();
   const connectionRef = useRef();
-
+  // get permission to use the user mediaDevices when the page loads
   useEffect(() => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
@@ -28,16 +29,16 @@ const ContextProvider = ({ children }) => {
         myVideo.current.srcObject = currentStream;
       });
 
-      socket.on("me", (id) => {
-        console.log('socket.id', id);
-        setMe(id)
-      });
+    socket.on("me", (id) => {
+      // console.log("socket.id", id);
+      setMe(id);
+    });
 
     socket.on("callUser", ({ from, name: callerName, signal }) => {
       setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
   }, []);
-
+  // answercall function
   const answerCall = () => {
     setCallAccepted(true);
 
@@ -48,7 +49,7 @@ const ContextProvider = ({ children }) => {
     });
 
     peer.on("stream", (currentStream) => {
-      console.log('currentStream', currentStream);
+      // console.log("currentStream", currentStream);
       userVideo.current.srcObject = currentStream;
     });
 
@@ -56,12 +57,12 @@ const ContextProvider = ({ children }) => {
 
     connectionRef.current = peer;
   };
-
+  // calluser function
   const callUser = (id) => {
     const peer = new Peer({ initiator: true, trickle: false, stream });
 
     peer.on("signal", (data) => {
-      console.log('data', data);
+      // console.log("data", data);
       socket.emit("callUser", {
         userToCall: id,
         signalData: data,
@@ -71,22 +72,21 @@ const ContextProvider = ({ children }) => {
     });
 
     peer.on("stream", (currentStream) => {
-      console.log('currentStream', currentStream);
+      // console.log("currentStream", currentStream);
       userVideo.current.srcObject = currentStream;
     });
 
     socket.on("callAccepted", (signal) => {
-      console.log('signal', signal);
+      // console.log("signal", signal);
       setCallAccepted(true);
-
 
       peer.signal(signal);
     });
 
     connectionRef.current = peer;
-
   };
 
+  // leavecall function
   const leaveCall = () => {
     setCallEnded(true);
 

@@ -7,7 +7,8 @@ const VideoPlayer = () => {
   const { name, callAccepted, myVideo, userVideo, callEnded, stream, call } =
     useContext(SocketContext);
 
-  return (
+  return ( 
+    // the caller's video
     <Grid container className="gridContainer">
       {stream && (
         <Paper className="paper">
@@ -19,6 +20,7 @@ const VideoPlayer = () => {
           </Grid>
         </Paper>
       )}
+      {/* th call receiver's video */}
       {callAccepted && !callEnded && (
         <Paper className="paper">
           <Grid item xs={12} md={6}>
