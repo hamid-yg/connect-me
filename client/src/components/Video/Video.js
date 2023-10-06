@@ -1,12 +1,9 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import VideoContext from "../../context/VideoContext";
 import "./Video.css";
-import { Card, Modal, Button, Input, notification, Avatar } from "antd";
-import Man from "../../assests/man.svg";
+import { Modal, Input, notification, Avatar } from "antd";
 import VideoIcon from "../../assests/video.svg";
-import { io } from "socket.io-client";
 import VideoOff from "../../assests/video-off.svg";
-// import Profile from "../../assests/profile.svg";
 import Msg_Illus from "../../assests/msg_illus.svg";
 import Msg from "../../assests/msg.svg";
 import ScreenShare from '../../assests/share_screen.svg'
@@ -14,7 +11,6 @@ import { UserOutlined, MessageOutlined } from "@ant-design/icons";
 
 import { socket } from "../../context/VideoState";
 
-// const socket = io()
 const { Search } = Input;
 const Video = () => {
   const {
@@ -48,6 +44,7 @@ const Video = () => {
 
   const [sendMsg, setSendMsg] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
+
   socket.on("msgRcv", ({ name, msg: value, sender }) => {
     let msg = {};
     msg.msg = value;

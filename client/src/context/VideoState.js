@@ -4,8 +4,8 @@ import { io } from "socket.io-client";
 import Peer from "simple-peer";
 import { message } from "antd";
 
-// const URL = "https://fathomless-tundra-67025.herokuapp.com/";
-const SERVER_URL = "http://localhost:5000/";
+// const URL = "https://connect-me-47177b2104fc.herokuapp.com/";
+const URL = "http://localhost:5000/";
 
 export const socket = io(URL);
 
@@ -47,7 +47,7 @@ const VideoState = ({ children }) => {
     });
 
     socket.on("updateUserMedia", ({ type, currentMediaStatus }) => {
-      if (currentMediaStatus !== null || currentMediaStatus !== []) {
+      if (currentMediaStatus !== null || currentMediaStatus !== undefined) {
         switch (type) {
           case "video":
             setUserVdoStatus(currentMediaStatus);
@@ -74,10 +74,6 @@ const VideoState = ({ children }) => {
       }, 2000);
     });
   }, []);
-
-  // useEffect(() => {
-  //   console.log(chat);
-  // }, [chat]);
 
   const answerCall = () => {
     setCallAccepted(true);
@@ -156,73 +152,64 @@ const VideoState = ({ children }) => {
     });
   };
 
-  
-    //SCREEN SHARING 
-    const handleScreenSharing = () => {
+  const handleScreenSharing = () => {
 
-      if(!myVdoStatus){
-        message.error("Turn on your video to share the content", 2);
-        return;
-      }
-    
-      if (!screenShare) {
-        navigator.mediaDevices
-          .getDisplayMedia({ cursor: true })
-          .then((currentStream) => {
-            const screenTrack = currentStream.getTracks()[0];
-
+    if(!myVdoStatus){
+      message.error("Turn on your video to share the content", 2);
+      return;
+    }
   
-              // replaceTrack (oldTrack, newTrack, oldStream);
-              connectionRef.current.replaceTrack(
+    if (!screenShare) {
+      navigator.mediaDevices
+        .getDisplayMedia({ cursor: true })
+        .then((currentStream) => {
+          const screenTrack = currentStream.getTracks()[0];
+          connectionRef.current.replaceTrack(
+            connectionRef.current.streams[0]
+              .getTracks()
+              .find((track) => track.kind === 'video'),
+            screenTrack,
+            stream
+          );
+
+          screenTrack.onended = () => {
+            connectionRef.current.replaceTrack(
+                screenTrack,
                 connectionRef.current.streams[0]
                   .getTracks()
                   .find((track) => track.kind === 'video'),
-                screenTrack,
                 stream
               );
-  
-            // Listen click end
-            screenTrack.onended = () => {
-              connectionRef.current.replaceTrack(
-                  screenTrack,
-                  connectionRef.current.streams[0]
-                    .getTracks()
-                    .find((track) => track.kind === 'video'),
-                  stream
-                );
 
-              myVideo.current.srcObject = stream;
-              setScreenShare(false);
-            };
-  
-            myVideo.current.srcObject = currentStream;
-            screenTrackRef.current = screenTrack;
-            setScreenShare(true);
-          }).catch((error) => {
-            console.log("No stream for sharing")
-          });
-      } else {
-        screenTrackRef.current.onended();
-      }
-    };
+            myVideo.current.srcObject = stream;
+            setScreenShare(false);
+          };
 
-     //full screen
-     const fullScreen = (e) => {
-      const elem = e.target;
+          myVideo.current.srcObject = currentStream;
+          screenTrackRef.current = screenTrack;
+          setScreenShare(true);
+        }).catch((error) => {
+          console.log("No stream for sharing")
+        });
   
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.mozRequestFullScreen) {
-        /* Firefox */
-        elem.mozRequestFullScreen();
-      } else if (elem.webkitRequestFullscreen) {
-        /* Chrome, Safari & Opera */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) {
-        /* IE/Edge */
-        elem.msRequestFullscreen();
-      }
-    };
+    } else {
+      screenTrackRef.current.onended();
+    }
+  };
+
+  const fullScreen = (e) => {
+    const elem = e.target;
+
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
+    }
+  };
 
   const leaveCall = () => {
     setCallEnded(true);
@@ -235,6 +222,7 @@ const VideoState = ({ children }) => {
   const leaveCall1 = () => {
     socket.emit("endCall", { id: otherUser });
   };
+
   const sendMsg = (value) => {
     socket.emit("msgUser", { name, to: otherUser, msg: value, sender: name });
     let msg = {};

@@ -71,19 +71,3 @@
   font-weight: bold;
   margin-top: 0.5rem;
 }
-
-.share_options {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-top: 0.5rem;
-}
-.share_social {
-  display: flex;
-  /* margin-top: 1rem; */
-}
-
-.share_icon {
-  display: flex;
-  margin-left: 0.4rem;
-}
