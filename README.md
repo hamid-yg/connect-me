@@ -33,7 +33,7 @@ $ cd client
 
 $ npm i
 
-$ npm run dev
+$ npm start
 ```
 The client should be run on [http://locahost:3000](http://locahost:3000). Open it on the browser to test it
 
