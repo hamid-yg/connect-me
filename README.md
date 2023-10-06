@@ -11,12 +11,12 @@ The video calling app project aims to create a user-friendly and reliable platfo
 
 ## Features
 
-- [ ] Video Calling with Camera
-- [ ] Mute Audio / Video 
+- [x] Video Calling with Camera
+- [x] Mute Audio / Video 
 - [ ] PWA features for mobile devices
-- [ ] Real-time chat
-- [ ] Screen Sharing
-- [ ] Unlimited duration calls
+- [x] Real-time chat
+- [x] Screen Sharing
+- [x] Unlimited duration calls
 - [ ] Recording
 
 ## Stack
