@@ -34,7 +34,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("updateMyMedia", ({ type, currentMediaStatus }) => {
-    console.log("updateMyMedia");
     socket.broadcast.emit("updateUserMedia", { type, currentMediaStatus });
   });
 
